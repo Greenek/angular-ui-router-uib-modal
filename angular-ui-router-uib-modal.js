@@ -37,8 +37,8 @@ angular.module("ui.router.modal", ["ui.router"])
                 var openModal_1;
                 // Get modal.resolve keys from state.modal or state.resolve
                 var resolve_1 = (Array.isArray(options.modal) ? options.modal : []).concat(Object.keys(options.resolve || {}));
-                var inject_1 = ["$uibModal", "$state"];
-                options.onEnter = function ($uibModal, $state) {
+                var inject_1 = ["$uibModal", "$previousState"];
+                options.onEnter = function ($uibModal, $previousState) {
                     // Add resolved values to modal options
                     if (resolve_1.length) {
                         options.resolve = {};
@@ -50,7 +50,7 @@ angular.module("ui.router.modal", ["ui.router"])
                     openModal_1.result['finally'](function () {
                         if (thisModal === openModal_1) {
                             // Dialog was closed via $uibModalInstance.close/dismiss, go to our parent state
-                            $state.go($state.get("^", stateName).name);
+                            $previousState.go();
                         }
                     });
                 };
