@@ -40,7 +40,6 @@ angular.module("ui.router.modal", ["ui.router"])
 
 				let inject = ["$uibModal", "$previousState"];
 				options.onEnter = function($uibModal: angular.ui.bootstrap.IModalService, $previousState: angular.ui.IPreviousStateService) {
-
 					// Add resolved values to modal options
 					if (resolve.length) {
 						options.resolve = {};
@@ -48,13 +47,15 @@ angular.module("ui.router.modal", ["ui.router"])
 							options.resolve[resolve[i]] = injectedConstant(arguments[inject.length + i]);
 						}
 					}
+					
+					$previousState.memo('modalInvoker');
 
 					let thisModal = openModal = $uibModal.open(options as angular.ui.bootstrap.IModalSettings);
 
 					openModal.result['finally'](function() {
 						if (thisModal === openModal) {
 							// Dialog was closed via $uibModalInstance.close/dismiss, go to our parent state
-							$previousState.go();
+							$previousState.go('modalInvoker');
 						}
 					});
 				};

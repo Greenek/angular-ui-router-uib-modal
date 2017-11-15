@@ -46,11 +46,12 @@ angular.module("ui.router.modal", ["ui.router"])
                             options.resolve[resolve_1[i]] = injectedConstant(arguments[inject_1.length + i]);
                         }
                     }
+                    $previousState.memo('modalInvoker');
                     var thisModal = openModal_1 = $uibModal.open(options);
                     openModal_1.result['finally'](function () {
                         if (thisModal === openModal_1) {
                             // Dialog was closed via $uibModalInstance.close/dismiss, go to our parent state
-                            $previousState.go();
+                            $previousState.go('modalInvoker');
                         }
                     });
                 };
